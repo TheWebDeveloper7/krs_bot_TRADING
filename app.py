@@ -1,11 +1,13 @@
 from flask import Flask, request
 import requests
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
-BOT_TOKEN = "PASTE_BOT_TOKEN"
-CHAT_ID = "PASTE_CHAT_ID"
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+CHAT_ID = os.environ.get("CHAT_ID")
+
 
 def send_telegram(message):
 
