@@ -20,6 +20,7 @@ def send_telegram(message):
 
     requests.post(url, data=payload)
 
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
 
@@ -28,44 +29,38 @@ def webhook():
     symbol = data['symbol']
     signal = data['signal']
     price = data['price']
+    sl = data['sl']
+    target = data['target']
 
     time_now = datetime.now().strftime("%I:%M %p")
 
-    if signal == "BUY CE":
-
-        msg = f"""
+    msg = f"""
 🚨 KRS ALERT
 
 STOCK : {symbol}
 
-SIGNAL : BULLISH CHOCH
-
-ACTION : BUY CE
+SIGNAL : {signal}
 
 PRICE : ₹{price}
 
-TIME : {time_now}
-"""
+SL : ₹{sl}
 
-    else:
-
-        msg = f"""
-🚨 KRS ALERT
-
-STOCK : {symbol}
-
-SIGNAL : BEARISH CHOCH
-
-ACTION : BUY PE
-
-PRICE : ₹{price}
+TARGET : ₹{target}
 
 TIME : {time_now}
 """
 
     send_telegram(msg)
 
-    return {"status": "success"}
+    return {
+        "status": "success"
+    }
+
+
+@app.route('/')
+def home():
+    return "KRS Trading Bot Running Successfully"
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
